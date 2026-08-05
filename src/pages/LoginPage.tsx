@@ -8,7 +8,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { Input } from '../components/ui/Input';
 import { Button } from '../components/ui/Button';
 import { useToast } from '../components/ui/Toast';
-import { Clock, Lock, Mail, ArrowRight } from 'lucide-react';
+import { Clock, Lock, Mail, ArrowRight, Eye, EyeOff } from 'lucide-react';
 import { motion } from 'motion/react';
 
 const loginSchema = z.object({
@@ -22,6 +22,7 @@ export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     register,
@@ -88,9 +89,19 @@ export const LoginPage: React.FC = () => {
             <div className="space-y-1">
               <Input
                 label="Contraseña"
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 placeholder="••••••••"
                 leftIcon={<Lock className="w-4 h-4" />}
+                rightIcon={
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="focus:outline-none hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors p-1"
+                    aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+                  >
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                }
                 error={errors.password?.message}
                 {...register('password')}
               />
