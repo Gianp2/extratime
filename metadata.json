@@ -1,0 +1,6 @@
+{
+  "name": "ExtraTime",
+  "description": "Aplicación profesional para registrar, organizar y visualizar horas extras laborales de forma simple, rápida y moderna.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

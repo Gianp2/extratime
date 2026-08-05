@@ -1,0 +1,90 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Information about the user profile",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "maxLength": 128 },
+        "email": { "type": "string", "maxLength": 256 },
+        "displayName": { "type": "string", "maxLength": 100 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["uid", "email"]
+    },
+    "ExtraHour": {
+      "title": "Extra Hour Record",
+      "description": "Log of daily extra hours worked",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "date": { "type": "string", "maxLength": 10, "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+        "hours": { "type": "number" },
+        "entryTime": { "type": "string", "maxLength": 5 },
+        "exitTime": { "type": "string", "maxLength": 5 },
+        "hourType": { "type": "string", "enum": ["normal", "50%", "100%", "nocturna", "feriado"] },
+        "notes": { "type": "string", "maxLength": 500 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "date", "hours", "hourType"]
+    },
+    "Settings": {
+      "title": "User Settings",
+      "description": "User configuration for rates and preferences",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128 },
+        "rateNormal": { "type": "number" },
+        "rate50": { "type": "number" },
+        "rate100": { "type": "number" },
+        "rateNocturna": { "type": "number" },
+        "rateFeriado": { "type": "number" },
+        "normalWorkdayHours": { "type": "number" },
+        "monthlyGoalHours": { "type": "number" },
+        "firstWorkday": { "type": "string", "enum": ["monday", "sunday"] },
+        "currency": { "type": "string", "maxLength": 5 },
+        "theme": { "type": "string", "enum": ["light", "dark", "system"] },
+        "language": { "type": "string", "enum": ["es", "en"] },
+        "timeFormat": { "type": "string", "enum": ["12h", "24h"] },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["userId"]
+    },
+    "Notification": {
+      "title": "User Notification",
+      "description": "Alert or reminder for the user",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "type": { "type": "string", "enum": ["info", "warning", "success", "reminder"] },
+        "title": { "type": "string", "maxLength": 100 },
+        "message": { "type": "string", "maxLength": 300 },
+        "read": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "title", "message"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "User document storing user profile"
+    },
+    "/extraHours/{extraHourId}": {
+      "schema": { "$ref": "#/entities/ExtraHour" },
+      "description": "Collection of extra hour entries per user"
+    },
+    "/settings/{userId}": {
+      "schema": { "$ref": "#/entities/Settings" },
+      "description": "User specific configuration settings"
+    },
+    "/notifications/{notificationId}": {
+      "schema": { "$ref": "#/entities/Notification" },
+      "description": "User notification items"
+    }
+  }
+}
