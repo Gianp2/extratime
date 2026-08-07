@@ -125,10 +125,10 @@ export interface CalendarDayColor {
 export function getDayColorConfig(hours: number): CalendarDayColor {
   if (hours <= 0) {
     return {
-      bgClass: 'bg-zinc-50 dark:bg-zinc-900/60 text-zinc-400 dark:text-zinc-500',
-      textClass: 'text-zinc-400 dark:text-zinc-500',
+      bgClass: 'bg-zinc-50 dark:bg-zinc-900/60 text-zinc-700 dark:text-zinc-400',
+      textClass: 'text-zinc-700 dark:text-zinc-400',
       borderClass: 'border-zinc-200 dark:border-zinc-800',
-      badgeBg: 'bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400',
+      badgeBg: 'bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-400',
       categoryLabel: 'Sin horas',
     };
   } else if (hours <= 2) {

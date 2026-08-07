@@ -44,22 +44,22 @@ export const ForgotPasswordPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 flex flex-col justify-center items-center p-4">
+    <div className="h-screen h-[100dvh] w-full bg-zinc-50 dark:bg-zinc-950 flex flex-col justify-center items-center p-4 overflow-hidden fixed inset-0">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-md space-y-8"
+        className="w-full max-w-md my-auto space-y-4 sm:space-y-5"
       >
-        <div className="text-center space-y-3">
-          <div className="w-14 h-14 rounded-2xl bg-zinc-900 dark:bg-zinc-100 mx-auto flex items-center justify-center text-white dark:text-zinc-900 shadow-xl">
-            <Clock className="w-7 h-7" />
+        <div className="text-center space-y-2">
+          <div className="w-12 h-12 rounded-2xl bg-zinc-900 dark:bg-zinc-100 mx-auto flex items-center justify-center text-white dark:text-zinc-900 shadow-lg">
+            <Clock className="w-6 h-6" />
           </div>
           <h1 className="text-2xl font-extrabold text-zinc-900 dark:text-zinc-100 tracking-tight">
             ExtraTime
           </h1>
         </div>
 
-        <div className="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-3xl p-6 sm:p-8 shadow-xl space-y-6">
+        <div className="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-3xl p-5 sm:p-7 shadow-xl space-y-5">
           <div className="space-y-1">
             <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-100">Recuperar Contraseña</h2>
             <p className="text-xs text-zinc-500 dark:text-zinc-400">
@@ -73,7 +73,7 @@ export const ForgotPasswordPage: React.FC = () => {
               <p>Revisa tu casilla de correo electrónico y sigue las instrucciones para cambiar tu contraseña.</p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-3.5">
               <Input
                 label="Correo Electrónico"
                 type="email"
@@ -86,7 +86,7 @@ export const ForgotPasswordPage: React.FC = () => {
               <Button
                 type="submit"
                 variant="primary"
-                className="w-full py-3 shadow-md font-semibold mt-2"
+                className="w-full py-2.5 shadow-md font-semibold mt-1"
                 isLoading={isSubmitting}
               >
                 Enviar Enlace de Recuperación
@@ -94,7 +94,7 @@ export const ForgotPasswordPage: React.FC = () => {
             </form>
           )}
 
-          <div className="pt-4 border-t border-zinc-100 dark:border-zinc-800 text-center">
+          <div className="pt-3 border-t border-zinc-100 dark:border-zinc-800 text-center">
             <Link
               to="/login"
               className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
@@ -105,7 +105,7 @@ export const ForgotPasswordPage: React.FC = () => {
           </div>
         </div>
 
-        <p className="text-center text-xs text-zinc-400 dark:text-zinc-500 font-medium pt-1">
+        <p className="text-center text-[11px] text-zinc-400 dark:text-zinc-500 font-medium pt-0.5">
           Desarrollado por <span className="font-semibold text-zinc-600 dark:text-zinc-300">Gianluca Pasquinelli</span>
         </p>
       </motion.div>

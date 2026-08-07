@@ -3,7 +3,7 @@ import { useExtraHoursStore } from '../store/useExtraHoursStore';
 import { Card, CardHeader, CardTitle, CardDescription } from '../components/ui/Card';
 import { getMonthNamesSpanish } from '../utils/dateUtils';
 import { HoursByMonthChart } from '../components/charts/HoursByMonthChart';
-import { Sparkles, ChevronLeft, ChevronRight, TrendingUp, TrendingDown, Calendar } from 'lucide-react';
+import { Sparkles, ChevronLeft, ChevronRight, TrendingUp, TrendingDown, Calendar, Clock, Award, CalendarDays } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 
 export const AnualPage: React.FC = () => {
@@ -86,28 +86,55 @@ export const AnualPage: React.FC = () => {
 
       {/* Yearly Summary Banner */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="bg-gradient-to-br from-zinc-900 to-zinc-800 text-white dark:from-zinc-900 dark:to-zinc-950 border-none shadow-md">
-          <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
-            Total Horas del Año
-          </span>
-          <p className="text-3xl font-extrabold text-white mt-2">{totalYearHours} hrs</p>
-          <p className="text-xs text-zinc-400 mt-1">Acumulado en 12 meses</p>
+        <Card className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-5 shadow-sm space-y-3">
+          <div className="flex items-center gap-2">
+            <span className="p-2 rounded-xl bg-indigo-100 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-400">
+              <Clock className="w-4 h-4" />
+            </span>
+            <span className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">
+              Total Horas del Año
+            </span>
+          </div>
+          <div>
+            <p className="text-3xl font-extrabold text-zinc-900 dark:text-white tracking-tight">
+              {totalYearHours} <span className="text-lg font-bold text-indigo-600 dark:text-indigo-400">hrs</span>
+            </p>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 font-medium">Acumulado total en {selectedYear}</p>
+          </div>
         </Card>
 
-        <Card>
-          <span className="text-xs font-semibold text-zinc-500 uppercase">Promedio por Mes</span>
-          <p className="text-3xl font-extrabold text-indigo-600 dark:text-indigo-400 mt-2">
-            {yearlyAvgPerMonth} hrs/mes
-          </p>
-          <p className="text-xs text-zinc-500 mt-1">Promedio mensual global</p>
+        <Card className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-5 shadow-sm space-y-3">
+          <div className="flex items-center gap-2">
+            <span className="p-2 rounded-xl bg-violet-100 dark:bg-violet-950/60 text-violet-700 dark:text-violet-400">
+              <CalendarDays className="w-4 h-4" />
+            </span>
+            <span className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">
+              Promedio por Mes
+            </span>
+          </div>
+          <div>
+            <p className="text-3xl font-extrabold text-zinc-900 dark:text-white tracking-tight">
+              {yearlyAvgPerMonth} <span className="text-lg font-bold text-violet-600 dark:text-violet-400">hrs/mes</span>
+            </p>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 font-medium">Promedio mensual global</p>
+          </div>
         </Card>
 
-        <Card>
-          <span className="text-xs font-semibold text-zinc-500 uppercase">Días Registrados</span>
-          <p className="text-3xl font-extrabold text-emerald-600 dark:text-emerald-400 mt-2">
-            {totalYearDaysWorked} días
-          </p>
-          <p className="text-xs text-zinc-500 mt-1">Días trabajados con horas extras</p>
+        <Card className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-5 shadow-sm space-y-3">
+          <div className="flex items-center gap-2">
+            <span className="p-2 rounded-xl bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400">
+              <Award className="w-4 h-4" />
+            </span>
+            <span className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">
+              Días Registrados
+            </span>
+          </div>
+          <div>
+            <p className="text-3xl font-extrabold text-zinc-900 dark:text-white tracking-tight">
+              {totalYearDaysWorked} <span className="text-lg font-bold text-emerald-600 dark:text-emerald-400">días</span>
+            </p>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 font-medium">Días trabajados con horas extras</p>
+          </div>
         </Card>
       </div>
 

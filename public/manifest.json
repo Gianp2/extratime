@@ -1,0 +1,21 @@
+{
+  "name": "ExtraTime - Control de Horas Extras",
+  "short_name": "ExtraTime",
+  "description": "Controla, calcula y gestiona tus horas extras laborales de forma simple y profesional.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#09090b",
+  "theme_color": "#4f46e5",
+  "icons": [
+    {
+      "src": "https://img.icons8.com/isometric/512/clock.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://img.icons8.com/isometric/512/clock.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

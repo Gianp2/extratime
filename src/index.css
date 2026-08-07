@@ -1,28 +1,49 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @layer base {
   html {
+    color-scheme: light;
+  }
+
+  html.dark {
     color-scheme: dark;
   }
 
   body {
+    background-color: #f8fafc;
+    color: #09090b;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  html.dark body {
     background-color: #09090b;
     color: #f4f4f5;
   }
 
-  /* Custom dark scrollbars */
+  /* Custom scrollbars */
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
   }
   ::-webkit-scrollbar-track {
+    background: #f1f5f9;
+  }
+  html.dark ::-webkit-scrollbar-track {
     background: #09090b;
   }
   ::-webkit-scrollbar-thumb {
-    background: #27272a;
+    background: #cbd5e1;
     border-radius: 9999px;
   }
+  html.dark ::-webkit-scrollbar-thumb {
+    background: #27272a;
+  }
   ::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+  }
+  html.dark ::-webkit-scrollbar-thumb:hover {
     background: #3f3f46;
   }
 }

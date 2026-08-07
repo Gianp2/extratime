@@ -66,35 +66,35 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu, pageTitle = 'D
   };
 
   return (
-    <header className="sticky top-0 z-30 h-16 bg-[#09090b]/90 backdrop-blur-md border-b border-zinc-800 px-3 sm:px-8 flex items-center justify-between gap-2 sm:gap-4">
+    <header className="sticky top-0 z-30 h-16 bg-white/90 dark:bg-[#09090b]/90 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800 px-3 sm:px-8 flex items-center justify-between gap-2 sm:gap-4 transition-colors">
       {/* Left side: Mobile menu toggle & page title */}
       <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
         <button
           onClick={onOpenMobileMenu}
-          className="lg:hidden p-1.5 rounded-xl text-zinc-300 hover:bg-zinc-800 transition-colors shrink-0"
+          className="lg:hidden p-1.5 rounded-xl text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors shrink-0"
           aria-label="Abrir menú"
         >
           <Menu className="w-5 h-5" />
         </button>
-        <h2 className="text-sm sm:text-lg font-bold text-white tracking-tight truncate">
+        <h2 className="text-sm sm:text-lg font-bold text-zinc-900 dark:text-white tracking-tight truncate">
           {pageTitle}
         </h2>
       </div>
 
       {/* Center: Search Input */}
       <div className="hidden md:flex items-center flex-1 max-w-xs relative">
-        <Search className="w-4 h-4 text-zinc-500 absolute left-3 pointer-events-none" />
+        <Search className="w-4 h-4 text-zinc-400 dark:text-zinc-500 absolute left-3 pointer-events-none" />
         <input
           type="text"
           value={searchQuery}
           onChange={handleSearchChange}
           placeholder="Buscar fecha, horas o nota..."
-          className="w-full pl-9 pr-3 py-1.5 text-xs bg-zinc-900 border border-zinc-800 focus:border-indigo-500/50 text-white placeholder-zinc-500 rounded-xl focus:outline-none transition-all"
+          className="w-full pl-9 pr-3 py-1.5 text-xs bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 focus:border-indigo-500/50 text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 rounded-xl focus:outline-none transition-all"
         />
         {searchQuery && (
           <button
             onClick={() => setSearchQuery('')}
-            className="absolute right-2.5 text-zinc-500 hover:text-zinc-200"
+            className="absolute right-2.5 text-zinc-400 hover:text-zinc-600 dark:text-zinc-500 dark:hover:text-zinc-200"
           >
             <X className="w-3.5 h-3.5" />
           </button>
@@ -106,8 +106,8 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu, pageTitle = 'D
         <Button
           variant="outline"
           size="sm"
-          className="hidden md:inline-flex border-zinc-800 bg-zinc-900 hover:bg-zinc-800 text-zinc-200 text-xs font-medium rounded-lg px-3 py-2"
-          leftIcon={<DollarSign className="w-3.5 h-3.5 text-emerald-400" />}
+          className="hidden md:inline-flex border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 hover:bg-zinc-200 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-200 text-xs font-medium rounded-lg px-3 py-2"
+          leftIcon={<DollarSign className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" />}
           onClick={openRateModal}
           title="Configurar Precio de la Hora"
         >

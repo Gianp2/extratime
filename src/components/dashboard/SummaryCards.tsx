@@ -111,7 +111,7 @@ export const SummaryCards: React.FC<SummaryCardsProps> = ({ records }) => {
             >
               <Card
                 hoverEffect
-                className="relative overflow-hidden group bg-gradient-to-br from-indigo-950/60 via-zinc-900 to-zinc-900 border-indigo-500/30 cursor-pointer"
+                className="relative overflow-hidden group bg-gradient-to-br from-indigo-50 via-white to-white dark:from-indigo-950/60 dark:via-zinc-900 dark:to-zinc-900 border-indigo-200 dark:border-indigo-500/30 cursor-pointer"
                 onClick={openRateModal}
               >
                 <div className="flex items-start justify-between">
@@ -157,16 +157,16 @@ export const SummaryCards: React.FC<SummaryCardsProps> = ({ records }) => {
                     {c.title}
                   </span>
                   <div className="flex items-end justify-between gap-2">
-                    <span className="text-2xl font-bold text-white tracking-tight">
+                    <span className="text-2xl font-bold text-zinc-900 dark:text-white tracking-tight">
                       {c.hours}h
                     </span>
-                    <span className="text-[11px] font-semibold text-emerald-400 mb-0.5">
+                    <span className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 mb-0.5">
                       {formatCurrency(c.earnings || 0, currencySymbol)}
                     </span>
                   </div>
                 </div>
 
-                <div className={`p-2 rounded-lg bg-zinc-800 ${c.color} shrink-0`}>
+                <div className={`p-2 rounded-lg bg-zinc-100 dark:bg-zinc-800 ${c.color} shrink-0`}>
                   <Icon className="w-4 h-4" />
                 </div>
               </div>

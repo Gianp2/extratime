@@ -2,11 +2,9 @@ import React from 'react';
 import { useExtraHoursStore } from '../store/useExtraHoursStore';
 import { Card, CardHeader, CardTitle, CardDescription } from '../components/ui/Card';
 import { HoursByMonthChart } from '../components/charts/HoursByMonthChart';
-import { HoursByTypeChart } from '../components/charts/HoursByTypeChart';
 import { FortnightComparisonChart } from '../components/charts/FortnightComparisonChart';
 import { getMonthNamesSpanish, formatDateSpanish } from '../utils/dateUtils';
 import { BarChart3, Trophy, Flame, Calendar, Clock, Award, Activity } from 'lucide-react';
-import { HourType } from '../types';
 
 export const EstadisticasPage: React.FC = () => {
   const records = useExtraHoursStore((s) => s.records);
@@ -72,11 +70,6 @@ export const EstadisticasPage: React.FC = () => {
     return { monthName: mName.substring(0, 3), totalHours: h };
   });
 
-  const typeChartData = (['normal', '50%', '100%', 'nocturna', 'feriado'] as HourType[]).map((t) => ({
-    name: t,
-    value: records.filter((r) => r.hourType === t).reduce((a, b) => a + (b.hours || 0), 0),
-  }));
-
   const fortnightChartData = months.map((mName, idx) => {
     const mStr = String(idx + 1).padStart(2, '0');
     const prefix = `${currentYear}-${mStr}`;
@@ -110,36 +103,72 @@ export const EstadisticasPage: React.FC = () => {
 
       {/* Primary KPI Metrics */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="bg-gradient-to-br from-indigo-900 to-zinc-900 text-white border-none shadow-md">
-          <span className="text-xs font-semibold text-indigo-300 uppercase tracking-wider">
-            Total General Registrado
-          </span>
-          <p className="text-3xl font-extrabold text-white mt-2">{totalHours} hrs</p>
-          <p className="text-xs text-indigo-200 mt-1">En {totalRecordsCount} registros individuales</p>
+        <Card className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-5 shadow-sm space-y-3">
+          <div className="flex items-center gap-2">
+            <span className="p-2 rounded-xl bg-indigo-100 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-400">
+              <Clock className="w-4 h-4" />
+            </span>
+            <span className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">
+              Total General Registrado
+            </span>
+          </div>
+          <div>
+            <p className="text-3xl font-extrabold text-zinc-900 dark:text-white tracking-tight">
+              {totalHours} <span className="text-lg font-bold text-indigo-600 dark:text-indigo-400">hrs</span>
+            </p>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 font-medium">En {totalRecordsCount} registros individuales</p>
+          </div>
         </Card>
 
-        <Card>
-          <span className="text-xs font-semibold text-zinc-500 uppercase">Promedio x Día Trabajado</span>
-          <p className="text-3xl font-extrabold text-indigo-600 dark:text-indigo-400 mt-2">
-            {avgPerWorkedDay} hrs
-          </p>
-          <p className="text-xs text-zinc-500 mt-1">Basado en {totalDaysWorked} días activos</p>
+        <Card className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-5 shadow-sm space-y-3">
+          <div className="flex items-center gap-2">
+            <span className="p-2 rounded-xl bg-violet-100 dark:bg-violet-950/60 text-violet-700 dark:text-violet-400">
+              <Activity className="w-4 h-4" />
+            </span>
+            <span className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">
+              Promedio x Día
+            </span>
+          </div>
+          <div>
+            <p className="text-3xl font-extrabold text-zinc-900 dark:text-white tracking-tight">
+              {avgPerWorkedDay} <span className="text-lg font-bold text-violet-600 dark:text-violet-400">hrs/día</span>
+            </p>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 font-medium">Basado en {totalDaysWorked} días activos</p>
+          </div>
         </Card>
 
-        <Card>
-          <span className="text-xs font-semibold text-zinc-500 uppercase">Promedio Mensual</span>
-          <p className="text-3xl font-extrabold text-emerald-600 dark:text-emerald-400 mt-2">
-            {avgMonthly} hrs/mes
-          </p>
-          <p className="text-xs text-zinc-500 mt-1">Promedio semanal: {avgWeekly} hrs</p>
+        <Card className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-5 shadow-sm space-y-3">
+          <div className="flex items-center gap-2">
+            <span className="p-2 rounded-xl bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400">
+              <BarChart3 className="w-4 h-4" />
+            </span>
+            <span className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">
+              Promedio Mensual
+            </span>
+          </div>
+          <div>
+            <p className="text-3xl font-extrabold text-zinc-900 dark:text-white tracking-tight">
+              {avgMonthly} <span className="text-lg font-bold text-emerald-600 dark:text-emerald-400">hrs/mes</span>
+            </p>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 font-medium">Promedio semanal: {avgWeekly} hrs</p>
+          </div>
         </Card>
 
-        <Card>
-          <span className="text-xs font-semibold text-zinc-500 uppercase">Días sin Horas Extras</span>
-          <p className="text-3xl font-extrabold text-zinc-700 dark:text-zinc-300 mt-2">
-            {daysWithoutHours} días
-          </p>
-          <p className="text-xs text-zinc-500 mt-1">Días laborales estándar o de descanso</p>
+        <Card className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-5 shadow-sm space-y-3">
+          <div className="flex items-center gap-2">
+            <span className="p-2 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">
+              <Calendar className="w-4 h-4" />
+            </span>
+            <span className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">
+              Días sin Horas
+            </span>
+          </div>
+          <div>
+            <p className="text-3xl font-extrabold text-zinc-900 dark:text-white tracking-tight">
+              {daysWithoutHours} <span className="text-lg font-bold text-zinc-500 dark:text-zinc-400">días</span>
+            </p>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 font-medium">Días laborales estándar o de descanso</p>
+          </div>
         </Card>
       </div>
 
@@ -204,23 +233,13 @@ export const EstadisticasPage: React.FC = () => {
       </div>
 
       {/* Visual Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Evolución por Mes ({currentYear})</CardTitle>
-            <CardDescription>Horas acumuladas mes a mes</CardDescription>
-          </CardHeader>
-          <HoursByMonthChart data={monthlyChartData} />
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Proporción por Tipo de Hora</CardTitle>
-            <CardDescription>Normal, 50%, 100%, Nocturna y Feriados</CardDescription>
-          </CardHeader>
-          <HoursByTypeChart data={typeChartData} />
-        </Card>
-      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle>Evolución por Mes ({currentYear})</CardTitle>
+          <CardDescription>Horas acumuladas mes a mes</CardDescription>
+        </CardHeader>
+        <HoursByMonthChart data={monthlyChartData} />
+      </Card>
 
       <Card>
         <CardHeader>

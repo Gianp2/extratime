@@ -23,6 +23,7 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import { exportToCSV, exportToExcel } from '../services/exportService';
+import { ConfirmDeleteModal } from '../components/modals/ConfirmDeleteModal';
 
 export const HistorialPage: React.FC = () => {
   const records = useExtraHoursStore((s) => s.records);
@@ -35,7 +36,8 @@ export const HistorialPage: React.FC = () => {
   const [typeFilter, setTypeFilter] = useState<string>('all');
   const [sortField, setSortField] = useState<'date' | 'hours'>('date');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
-  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [deletingRecord, setDeletingRecord] = useState<ExtraHourRecord | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -93,13 +95,17 @@ export const HistorialPage: React.FC = () => {
     return filteredRecords.slice(start, start + pageSize);
   }, [filteredRecords, currentPage]);
 
-  const handleDelete = async (id: string) => {
+  const handleDeleteConfirm = async () => {
+    if (!deletingRecord) return;
+    setIsDeleting(true);
     try {
-      await deleteExtraHour(id);
+      await deleteExtraHour(deletingRecord.id);
       toast('success', 'Registro eliminado correctamente');
-      setDeletingId(null);
+      setDeletingRecord(null);
     } catch (err) {
       toast('error', 'Error al eliminar el registro');
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -265,24 +271,13 @@ export const HistorialPage: React.FC = () => {
                           >
                             <Edit2 className="w-4 h-4" />
                           </button>
-                          {deletingId === r.id ? (
-                            <div className="flex items-center gap-1">
-                              <Button variant="danger" size="sm" onClick={() => handleDelete(r.id)}>
-                                Sí
-                              </Button>
-                              <Button variant="ghost" size="sm" onClick={() => setDeletingId(null)}>
-                                No
-                              </Button>
-                            </div>
-                          ) : (
-                            <button
-                              onClick={() => setDeletingId(r.id)}
-                              className="p-1.5 rounded-lg text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors"
-                              title="Eliminar"
-                            >
-                              <Trash2 className="w-4 h-4" />
-                            </button>
-                          )}
+                          <button
+                            onClick={() => setDeletingRecord(r)}
+                            className="p-1.5 rounded-lg text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors"
+                            title="Eliminar"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
                         </div>
                       </td>
                     </tr>
@@ -320,6 +315,15 @@ export const HistorialPage: React.FC = () => {
           </div>
         )}
       </Card>
+
+      {/* Delete confirmation modal */}
+      <ConfirmDeleteModal
+        isOpen={!!deletingRecord}
+        onClose={() => setDeletingRecord(null)}
+        onConfirm={handleDeleteConfirm}
+        record={deletingRecord}
+        isLoading={isDeleting}
+      />
     </div>
   );
 };

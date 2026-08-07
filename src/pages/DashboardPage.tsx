@@ -2,14 +2,14 @@ import React from 'react';
 import { useExtraHoursStore } from '../store/useExtraHoursStore';
 import { SummaryCards } from '../components/dashboard/SummaryCards';
 import { GoalProgressCard } from '../components/dashboard/GoalProgressCard';
+import { NotificationBanner } from '../components/dashboard/NotificationBanner';
+import { SmartInsightsAlert } from '../components/dashboard/SmartInsightsAlert';
 import { RecentActivity } from '../components/dashboard/RecentActivity';
 import { HoursByMonthChart } from '../components/charts/HoursByMonthChart';
-import { HoursByTypeChart } from '../components/charts/HoursByTypeChart';
 import { Card, CardHeader, CardTitle, CardDescription } from '../components/ui/Card';
 import { Skeleton } from '../components/ui/Skeleton';
 import { Button } from '../components/ui/Button';
 import { getMonthNamesSpanish, getFortnightInterval, formatDateSpanish } from '../utils/dateUtils';
-import { HourType } from '../types';
 import { Plus, Clock, AlertCircle, Sparkles } from 'lucide-react';
 
 export const DashboardPage: React.FC = () => {
@@ -45,17 +45,6 @@ export const DashboardPage: React.FC = () => {
         monthName: mName.substring(0, 3),
         totalHours,
       };
-    });
-  }, [records]);
-
-  // Calculate type breakdown
-  const typeChartData = React.useMemo(() => {
-    const types: HourType[] = ['normal', '50%', '100%', 'nocturna', 'feriado'];
-    return types.map((t) => {
-      const value = records
-        .filter((r) => r.hourType === t)
-        .reduce((sum, r) => sum + (r.hours || 0), 0);
-      return { name: t, value };
     });
   }, [records]);
 
@@ -103,6 +92,9 @@ export const DashboardPage: React.FC = () => {
 
   return (
     <div className="space-y-6">
+      {/* Mobile & Browser Notification Banner */}
+      <NotificationBanner />
+
       {/* Top Banner / Quick Actions Header */}
       <div className="flex flex-row items-center justify-between gap-3 p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-zinc-900 via-zinc-900 to-indigo-950/40 border border-zinc-800/80 shadow-sm">
         <div className="space-y-0.5 min-w-0 flex-1">
@@ -131,21 +123,8 @@ export const DashboardPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Notice if Hourly Rate is missing */}
-      {(!settings.rateNormal || settings.rateNormal === 0) && (
-        <div className="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
-            <AlertCircle className="w-4 h-4 text-amber-400 shrink-0" />
-            <span>Aún no configuraste la tarifa por hora base para calcular tus ganancias automáticas.</span>
-          </div>
-          <button
-            onClick={openRateModal}
-            className="font-bold underline hover:text-amber-200 text-xs shrink-0"
-          >
-            Configurar Tarifa
-          </button>
-        </div>
-      )}
+      {/* Smart Insights & Rate Alerts */}
+      <SmartInsightsAlert />
 
       {/* Resumen Cards */}
       <SummaryCards records={records} />
@@ -204,17 +183,6 @@ export const DashboardPage: React.FC = () => {
         <div className="space-y-6">
           {/* Goal Card */}
           <GoalProgressCard />
-
-          {/* Type Distribution */}
-          <Card>
-            <CardHeader>
-              <div>
-                <CardTitle>Distribución por Tipo</CardTitle>
-                <CardDescription>Porcentaje acumulado por categoría</CardDescription>
-              </div>
-            </CardHeader>
-            <HoursByTypeChart data={typeChartData} />
-          </Card>
         </div>
       </div>
     </div>

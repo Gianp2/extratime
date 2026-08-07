@@ -9,7 +9,9 @@ import { Input } from '../components/ui/Input';
 import { Select } from '../components/ui/Select';
 import { Button } from '../components/ui/Button';
 import { useToast } from '../components/ui/Toast';
-import { Settings, Save, RefreshCw, DollarSign, Target, ShieldCheck } from 'lucide-react';
+import { Settings, Save, RefreshCw, DollarSign, Target, Sun, Moon, Monitor } from 'lucide-react';
+import { useThemeStore } from '../store/useThemeStore';
+import { NotificationSettingsCard } from '../components/dashboard/NotificationSettingsCard';
 import { UserSettings } from '../types';
 
 const settingsSchema = z.object({
@@ -26,6 +28,7 @@ type SettingsFormData = z.infer<typeof settingsSchema>;
 
 export const ConfiguracionPage: React.FC = () => {
   const settings = useExtraHoursStore((s) => s.settings);
+  const { theme, setTheme } = useThemeStore();
   const { toast } = useToast();
   const [isSaving, setIsSaving] = useState(false);
 
@@ -176,6 +179,67 @@ export const ConfiguracionPage: React.FC = () => {
             />
           </div>
         </Card>
+
+        {/* Theme Preferences Card */}
+        <Card className="space-y-4">
+          <CardHeader>
+            <CardTitle>Apariencia y Tema Visual</CardTitle>
+            <CardDescription>Elige tu modo visual preferido para la aplicación</CardDescription>
+          </CardHeader>
+
+          <div className="grid grid-cols-3 gap-3">
+            <button
+              type="button"
+              onClick={() => {
+                setTheme('light');
+                toast('info', 'Modo Claro activado');
+              }}
+              className={`p-3 sm:p-4 rounded-xl border flex flex-col items-center justify-center gap-2 transition-all ${
+                theme === 'light'
+                  ? 'border-indigo-600 bg-indigo-50/50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 font-semibold ring-1 ring-indigo-600'
+                  : 'border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:border-zinc-300 dark:hover:border-zinc-700'
+              }`}
+            >
+              <Sun className="w-5 h-5" />
+              <span className="text-xs">Claro</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                setTheme('dark');
+                toast('info', 'Modo Oscuro activado');
+              }}
+              className={`p-3 sm:p-4 rounded-xl border flex flex-col items-center justify-center gap-2 transition-all ${
+                theme === 'dark'
+                  ? 'border-indigo-600 bg-indigo-50/50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 font-semibold ring-1 ring-indigo-600'
+                  : 'border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:border-zinc-300 dark:hover:border-zinc-700'
+              }`}
+            >
+              <Moon className="w-5 h-5" />
+              <span className="text-xs">Oscuro</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                setTheme('system');
+                toast('info', 'Tema adaptado al Sistema');
+              }}
+              className={`p-3 sm:p-4 rounded-xl border flex flex-col items-center justify-center gap-2 transition-all ${
+                theme === 'system'
+                  ? 'border-indigo-600 bg-indigo-50/50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 font-semibold ring-1 ring-indigo-600'
+                  : 'border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:border-zinc-300 dark:hover:border-zinc-700'
+              }`}
+            >
+              <Monitor className="w-5 h-5" />
+              <span className="text-xs">Sistema</span>
+            </button>
+          </div>
+        </Card>
+
+        {/* Notification Settings Card */}
+        <NotificationSettingsCard />
 
         {/* Currency & Monthly Goal Card */}
         <Card className="space-y-4">

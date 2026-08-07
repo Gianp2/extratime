@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { ToastProvider } from './components/ui/Toast';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
@@ -17,13 +17,12 @@ import { MensualPage } from './pages/MensualPage';
 import { AnualPage } from './pages/AnualPage';
 import { EstadisticasPage } from './pages/EstadisticasPage';
 import { HistorialPage } from './pages/HistorialPage';
-import { CalculadoraPage } from './pages/CalculadoraPage';
 import { ReportesPage } from './pages/ReportesPage';
 import { ConfiguracionPage } from './pages/ConfiguracionPage';
 
 export function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <ToastProvider>
         <AuthProvider>
           <Routes>
@@ -50,7 +49,6 @@ export function App() {
               <Route path="anual" element={<AnualPage />} />
               <Route path="estadisticas" element={<EstadisticasPage />} />
               <Route path="historial" element={<HistorialPage />} />
-              <Route path="calculadora" element={<CalculadoraPage />} />
               <Route path="reportes" element={<ReportesPage />} />
               <Route path="configuracion" element={<ConfiguracionPage />} />
             </Route>
@@ -60,7 +58,7 @@ export function App() {
           </Routes>
         </AuthProvider>
       </ToastProvider>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 

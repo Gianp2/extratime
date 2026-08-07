@@ -6,19 +6,19 @@ import { MobileNav } from './MobileNav';
 import { DayDetailsModal } from '../calendar/DayDetailsModal';
 import { QuickRateModal } from '../modals/QuickRateModal';
 import { useExtraHoursStore } from '../../store/useExtraHoursStore';
+import { startNotificationScheduler } from '../../services/notificationService';
 
 const titleMap: Record<string, string> = {
-  '/dashboard': 'Dashboard Principal',
-  '/calendar': 'Calendario Mensual de Horas',
+  '/dashboard': 'Dashboard',
+  '/calendar': 'Calendario',
   '/quincenas': 'Resumen por Quincenas',
   '/semanas': 'Resumen por Semanas',
   '/mensual': 'Vista Mensual',
   '/anual': 'Vista Anual',
   '/estadisticas': 'Estadísticas & Analíticas',
   '/historial': 'Historial de Registros',
-  '/calculadora': 'Calculadora de Sueldo',
   '/reportes': 'Exportación & Reportes',
-  '/configuracion': 'Configuración de Parámetros',
+  '/configuracion': 'Configuración',
 };
 
 export const Layout: React.FC = () => {
@@ -57,6 +57,13 @@ export const Layout: React.FC = () => {
     setMobileMenuOpen(false);
   }, [location.pathname]);
 
+  // Start PWA Notification Scheduler
+  useEffect(() => {
+    const todayStr = new Date().toISOString().split('T')[0];
+    const hasRegisteredToday = records.some((r) => r.date === todayStr);
+    startNotificationScheduler(hasRegisteredToday);
+  }, [records]);
+
   // Keyboard Shortcuts: 'n' (new entry), 'd' (dashboard), 'c' (calendar), 's' (settings)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -84,7 +91,7 @@ export const Layout: React.FC = () => {
   }, [openDayModal, navigate]);
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-zinc-100 flex font-sans antialiased">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#09090b] text-zinc-900 dark:text-zinc-100 flex font-sans antialiased transition-colors duration-200">
       {/* Desktop Sidebar */}
       <div className="hidden lg:block shrink-0">
         <Sidebar />
