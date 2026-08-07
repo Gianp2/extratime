@@ -1,4 +1,5 @@
 import React from 'react';
+import { ThinkingOrb } from 'thinking-orbs';
 import { useExtraHoursStore } from '../store/useExtraHoursStore';
 import { SummaryCards } from '../components/dashboard/SummaryCards';
 import { GoalProgressCard } from '../components/dashboard/GoalProgressCard';
@@ -76,15 +77,11 @@ export const DashboardPage: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="space-y-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <Skeleton key={i} className="h-32" />
-          ))}
-        </div>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <Skeleton className="lg:col-span-2 h-80" />
-          <Skeleton className="h-80" />
+      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4 p-8 text-center">
+        <ThinkingOrb state="connecting" size={64} />
+        <div className="space-y-1">
+          <p className="text-sm font-bold text-zinc-800 dark:text-zinc-200">Cargando Panel de Horas Extras...</p>
+          <p className="text-xs text-zinc-500">Sincronizando tus datos y registros</p>
         </div>
       </div>
     );

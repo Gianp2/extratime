@@ -12,7 +12,19 @@ export const SmartInsightsAlert: React.FC = () => {
   const settings = useExtraHoursStore((s) => s.settings);
   const openRateModal = useExtraHoursStore((s) => s.openRateModal);
   const openDayModal = useExtraHoursStore((s) => s.openDayModal);
-  const [dismissed, setDismissed] = useState(false);
+  
+  const [dismissed, setDismissedState] = useState(() => {
+    return sessionStorage.getItem('dismissed_monthly_summary') === 'true';
+  });
+
+  const setDismissed = (val: boolean) => {
+    if (val) {
+      sessionStorage.setItem('dismissed_monthly_summary', 'true');
+    } else {
+      sessionStorage.removeItem('dismissed_monthly_summary');
+    }
+    setDismissedState(val);
+  };
 
   if (dismissed) return null;
 
