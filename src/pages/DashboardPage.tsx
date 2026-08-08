@@ -107,15 +107,14 @@ export const DashboardPage: React.FC = () => {
           </p>
         </div>
 
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="hidden sm:inline-flex shrink-0">
           <Button
             size="sm"
             onClick={() => openDayModal(todayStr)}
             leftIcon={<Plus className="w-3.5 h-3.5" />}
             className="shadow-md text-xs px-2.5 sm:px-3 py-1.5"
           >
-            <span className="hidden sm:inline">Cargar Horas</span>
-            <span className="sm:hidden">Registrar</span>
+            <span>Cargar Horas</span>
           </Button>
         </div>
       </div>

@@ -47,22 +47,22 @@ export const QuincenasPage: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Year Selector Header */}
-      <div className="flex items-center justify-between bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 p-4 rounded-2xl shadow-xs">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 p-4 rounded-2xl shadow-xs">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-amber-50 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400">
+          <div className="p-2.5 rounded-xl bg-amber-50 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400 shrink-0">
             <Layers className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="font-bold text-base text-zinc-900 dark:text-zinc-100">
+            <h3 className="font-bold text-sm sm:text-base text-zinc-900 dark:text-zinc-100">
               Control Quincenal - Año {selectedYear}
             </h3>
-            <p className="text-xs text-zinc-500">
+            <p className="text-[11px] sm:text-xs text-zinc-500">
               División automática: Q1 (Días 1-15) vs Q2 (Días 16-Fin)
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 self-end sm:self-auto shrink-0">
           <Button variant="outline" size="sm" onClick={() => setSelectedYear(selectedYear - 1)}>
             <ChevronLeft className="w-4 h-4" />
           </Button>

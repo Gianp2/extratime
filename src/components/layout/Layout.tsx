@@ -5,6 +5,7 @@ import { Header } from './Header';
 import { MobileNav } from './MobileNav';
 import { DayDetailsModal } from '../calendar/DayDetailsModal';
 import { QuickRateModal } from '../modals/QuickRateModal';
+import { OnboardingTour } from '../onboarding/OnboardingTour';
 import { useExtraHoursStore } from '../../store/useExtraHoursStore';
 import { startNotificationScheduler } from '../../services/notificationService';
 
@@ -23,6 +24,7 @@ const titleMap: Record<string, string> = {
 
 export const Layout: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [forceTour, setForceTour] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -61,7 +63,19 @@ export const Layout: React.FC = () => {
   useEffect(() => {
     const todayStr = new Date().toISOString().split('T')[0];
     const hasRegisteredToday = records.some((r) => r.date === todayStr);
-    startNotificationScheduler(hasRegisteredToday);
+
+    let latestTimeMs: number | undefined = undefined;
+    if (records.length > 0) {
+      latestTimeMs = Math.max(
+        ...records.map((r) => {
+          const createdMs = r.createdAt ? new Date(r.createdAt).getTime() : NaN;
+          const dateMs = new Date(r.date + 'T12:00:00').getTime();
+          return !isNaN(createdMs) && createdMs > dateMs ? createdMs : dateMs;
+        })
+      );
+    }
+
+    startNotificationScheduler(hasRegisteredToday, latestTimeMs);
   }, [records]);
 
   // Keyboard Shortcuts: 'n' (new entry), 'd' (dashboard), 'c' (calendar), 's' (settings)
@@ -112,7 +126,11 @@ export const Layout: React.FC = () => {
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 pb-16 lg:pb-0">
-        <Header pageTitle={pageTitle} onOpenMobileMenu={() => setMobileMenuOpen(true)} />
+        <Header
+          pageTitle={pageTitle}
+          onOpenMobileMenu={() => setMobileMenuOpen(true)}
+          onStartTour={() => setForceTour(true)}
+        />
 
         <main className="flex-1 p-4 sm:p-6 md:p-8 max-w-7xl w-full mx-auto space-y-6 overflow-x-hidden">
           <Outlet />
@@ -121,6 +139,9 @@ export const Layout: React.FC = () => {
 
       {/* Mobile Bottom Bar */}
       <MobileNav />
+
+      {/* Interactive Onboarding Tour */}
+      <OnboardingTour forceOpen={forceTour} onClose={() => setForceTour(false)} />
 
       {/* Global Day Modal */}
       <DayDetailsModal

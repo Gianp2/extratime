@@ -93,7 +93,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
         </Button>
 
         {/* Navigation Links */}
-        <nav className="space-y-1">
+        <nav id="tour-sidebar" className="space-y-1">
           {navItems.map((item) => {
             const Icon = item.icon;
             return (

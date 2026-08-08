@@ -144,7 +144,10 @@ export function saveReminderConfig(config: Partial<ReminderConfig>): ReminderCon
 // 8. Daily Scheduler Check (Runs periodically in app)
 let schedulerInterval: number | null = null;
 
-export function startNotificationScheduler(hasRegisteredToday: boolean = false): void {
+export function startNotificationScheduler(
+  hasRegisteredToday: boolean = false,
+  latestRecordTimeMs?: number
+): void {
   if (schedulerInterval) {
     clearInterval(schedulerInterval);
   }
@@ -169,9 +172,16 @@ export function startNotificationScheduler(hasRegisteredToday: boolean = false):
     const lastNotified = localStorage.getItem(LAST_NOTIFIED_KEY);
 
     if (currentTime === config.time && lastNotified !== todayStr) {
-      if (config.onlyIfNoRecords && hasRegisteredToday) {
-        // User already registered hours today, no need to remind
-        return;
+      if (config.onlyIfNoRecords) {
+        // Si ya registró hoy o registró hace menos de 20 horas, no molestar
+        if (hasRegisteredToday) return;
+
+        if (latestRecordTimeMs && !isNaN(latestRecordTimeMs)) {
+          const hoursPassed = (now.getTime() - latestRecordTimeMs) / (1000 * 60 * 60);
+          if (hoursPassed < 20) {
+            return;
+          }
+        }
       }
 
       sendDeviceNotification('ExtraTime ⏱️ Recordatorio de Horas', {

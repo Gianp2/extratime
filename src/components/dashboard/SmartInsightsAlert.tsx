@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
-import { Sparkles, TrendingUp, AlertTriangle, Lightbulb, ChevronRight, X, DollarSign, Target } from 'lucide-react';
+import { Sparkles, TrendingUp, ChevronRight, X, DollarSign } from 'lucide-react';
 import { useExtraHoursStore } from '../../store/useExtraHoursStore';
 import { getMonthHoursSummary, calculateSalaryBreakdown, filterRecordsByInterval } from '../../utils/calculations';
 import { getMonthInterval } from '../../utils/dateUtils';
 import { formatCurrency } from '../../utils/formatters';
 import { useNavigate } from 'react-router-dom';
+
+const DISMISS_STORAGE_KEY = 'extratime_summary_dismissed_at';
+const MIN_HOURS_DISMISSED = 24; // Ocultar al menos 24 horas tras cerrar
+const MIN_HOURS_INACTIVE = 24;  // Ocultar si el usuario registró horas en las últimas 24h
 
 export const SmartInsightsAlert: React.FC = () => {
   const navigate = useNavigate();
@@ -14,14 +18,44 @@ export const SmartInsightsAlert: React.FC = () => {
   const openDayModal = useExtraHoursStore((s) => s.openDayModal);
   
   const [dismissed, setDismissedState] = useState(() => {
-    return sessionStorage.getItem('dismissed_monthly_summary') === 'true';
+    // 1. Revisar si fue cerrado manualmente recientemente
+    const dismissedAt = localStorage.getItem(DISMISS_STORAGE_KEY);
+    if (dismissedAt) {
+      const ms = parseInt(dismissedAt, 10);
+      if (!isNaN(ms)) {
+        const hoursPassed = (Date.now() - ms) / (1000 * 60 * 60);
+        if (hoursPassed < MIN_HOURS_DISMISSED) {
+          return true;
+        }
+      }
+    }
+
+    // 2. Revisar si subió una hora extra recientemente (últimas 24 horas)
+    if (records.length > 0) {
+      const newestTimeMs = Math.max(
+        ...records.map((r) => {
+          const createdMs = r.createdAt ? new Date(r.createdAt).getTime() : NaN;
+          const dateMs = new Date(r.date + 'T12:00:00').getTime();
+          return !isNaN(createdMs) && createdMs > dateMs ? createdMs : dateMs;
+        })
+      );
+
+      if (!isNaN(newestTimeMs)) {
+        const hoursSinceRecord = (Date.now() - newestTimeMs) / (1000 * 60 * 60);
+        if (hoursSinceRecord < MIN_HOURS_INACTIVE) {
+          return true;
+        }
+      }
+    }
+
+    return false;
   });
 
   const setDismissed = (val: boolean) => {
     if (val) {
-      sessionStorage.setItem('dismissed_monthly_summary', 'true');
+      localStorage.setItem(DISMISS_STORAGE_KEY, Date.now().toString());
     } else {
-      sessionStorage.removeItem('dismissed_monthly_summary');
+      localStorage.removeItem(DISMISS_STORAGE_KEY);
     }
     setDismissedState(val);
   };

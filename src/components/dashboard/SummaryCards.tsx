@@ -98,7 +98,7 @@ export const SummaryCards: React.FC<SummaryCardsProps> = ({ records }) => {
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+    <div id="tour-summary" className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
       {cardsData.map((c, index) => {
         const Icon = c.icon;
         if (c.isCobroCard) {
@@ -108,6 +108,7 @@ export const SummaryCards: React.FC<SummaryCardsProps> = ({ records }) => {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.05, duration: 0.3 }}
+              className="col-span-2 sm:col-span-1"
             >
               <Card
                 hoverEffect
@@ -151,16 +152,16 @@ export const SummaryCards: React.FC<SummaryCardsProps> = ({ records }) => {
             transition={{ delay: index * 0.05, duration: 0.3 }}
           >
             <Card hoverEffect className="relative overflow-hidden group">
-              <div className="flex items-start justify-between">
-                <div>
-                  <span className="text-[10px] uppercase tracking-wider text-zinc-500 font-bold mb-1 block">
+              <div className="flex items-start justify-between gap-2">
+                <div className="min-w-0 flex-1">
+                  <span className="text-[10px] uppercase tracking-wider text-zinc-500 font-bold mb-1 block truncate">
                     {c.title}
                   </span>
-                  <div className="flex items-end justify-between gap-2">
-                    <span className="text-2xl font-bold text-zinc-900 dark:text-white tracking-tight">
+                  <div className="flex flex-wrap items-baseline justify-between gap-x-2 gap-y-0.5">
+                    <span className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white tracking-tight">
                       {c.hours}h
                     </span>
-                    <span className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 mb-0.5">
+                    <span className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
                       {formatCurrency(c.earnings || 0, currencySymbol)}
                     </span>
                   </div>

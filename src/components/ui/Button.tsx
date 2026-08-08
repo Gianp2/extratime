@@ -19,8 +19,11 @@ export const Button: React.FC<ButtonProps> = ({
   disabled,
   ...props
 }) => {
+  const hasDisplayOverride = /\b(hidden|block|inline|flex|grid|inline-block|inline-flex)\b/.test(className);
+  const displayClass = hasDisplayOverride ? '' : 'inline-flex';
+
   const baseClasses =
-    'inline-flex items-center justify-center font-medium rounded-xl transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer active:scale-[0.98]';
+    `${displayClass} items-center justify-center font-medium rounded-xl transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer active:scale-[0.98]`;
 
   const variantClasses = {
     primary:

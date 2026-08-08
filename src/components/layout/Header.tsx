@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, Search, Bell, Plus, X, Calendar as CalendarIcon, DollarSign } from 'lucide-react';
+import { Menu, Search, Bell, Plus, X, DollarSign, HelpCircle } from 'lucide-react';
 import { useExtraHoursStore } from '../../store/useExtraHoursStore';
 import { Button } from '../ui/Button';
 import { useNavigate } from 'react-router-dom';
@@ -7,9 +7,10 @@ import { useNavigate } from 'react-router-dom';
 interface HeaderProps {
   onOpenMobileMenu: () => void;
   pageTitle?: string;
+  onStartTour?: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu, pageTitle = 'Dashboard' }) => {
+export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu, pageTitle = 'Dashboard', onStartTour }) => {
   const openDayModal = useExtraHoursStore((s) => s.openDayModal);
   const openRateModal = useExtraHoursStore((s) => s.openRateModal);
   const settings = useExtraHoursStore((s) => s.settings);
@@ -76,7 +77,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu, pageTitle = 'D
         >
           <Menu className="w-5 h-5" />
         </button>
-        <h2 className="text-sm sm:text-lg font-bold text-zinc-900 dark:text-white tracking-tight truncate">
+        <h2 className="text-sm sm:text-lg font-bold text-zinc-900 dark:text-white tracking-tight truncate max-w-[180px] sm:max-w-none">
           {pageTitle}
         </h2>
       </div>
@@ -103,27 +104,41 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu, pageTitle = 'D
 
       {/* Right side: Quick Add CTA & Notifications */}
       <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
-        <Button
-          variant="outline"
-          size="sm"
-          className="hidden md:inline-flex border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 hover:bg-zinc-200 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-200 text-xs font-medium rounded-lg px-3 py-2"
-          leftIcon={<DollarSign className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" />}
-          onClick={openRateModal}
-          title="Configurar Precio de la Hora"
-        >
-          {settings.rateNormal > 0 ? `${settings.currency || '$'}${settings.rateNormal}/h` : 'Precio / Hora'}
-        </Button>
+        <div id="tour-rate" className="hidden md:inline-flex">
+          <Button
+            variant="outline"
+            size="sm"
+            className="border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 hover:bg-zinc-200 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-200 text-xs font-medium rounded-lg px-3 py-2"
+            leftIcon={<DollarSign className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" />}
+            onClick={openRateModal}
+            title="Configurar Precio de la Hora"
+          >
+            {settings.rateNormal > 0 ? `${settings.currency || '$'}${settings.rateNormal}/h` : 'Precio / Hora'}
+          </Button>
+        </div>
 
-        <Button
-          variant="primary"
-          size="sm"
-          className="inline-flex bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-lg px-2.5 sm:px-4 py-1.5"
-          leftIcon={<Plus className="w-3.5 h-3.5" />}
-          onClick={handleQuickAdd}
-        >
-          <span className="hidden sm:inline">Registrar Horas</span>
-          <span className="sm:hidden">Registrar</span>
-        </Button>
+        <div id="tour-add-btn" className="hidden sm:inline-flex">
+          <Button
+            variant="primary"
+            size="sm"
+            className="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-lg px-2.5 sm:px-4 py-1.5"
+            leftIcon={<Plus className="w-3.5 h-3.5" />}
+            onClick={handleQuickAdd}
+          >
+            <span>Registrar Horas</span>
+          </Button>
+        </div>
+
+        {/* Tutorial Button */}
+        {onStartTour && (
+          <button
+            onClick={onStartTour}
+            className="p-2 rounded-xl text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+            title="Ver Tutorial Interactivo"
+          >
+            <HelpCircle className="w-5 h-5 text-indigo-500 dark:text-indigo-400" />
+          </button>
+        )}
 
         {/* Notifications Dropdown */}
         <div className="relative">
@@ -139,7 +154,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu, pageTitle = 'D
           </button>
 
           {showNotifications && (
-            <div className="absolute right-0 mt-2 w-80 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-xl p-4 z-50">
+            <div className="absolute right-0 mt-2 w-80 max-w-[calc(100vw-2rem)] bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-xl p-4 z-50">
               <div className="flex items-center justify-between pb-3 border-b border-zinc-100 dark:border-zinc-800 mb-3">
                 <h4 className="text-xs font-bold text-zinc-900 dark:text-zinc-100">
                   Notificaciones & Recordatorios

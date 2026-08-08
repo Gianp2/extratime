@@ -18,7 +18,7 @@ export const MobileNav: React.FC = () => {
   };
 
   return (
-    <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border-t border-zinc-200 dark:border-zinc-800 px-4 py-2 flex items-center justify-around shadow-lg">
+    <div id="tour-nav" className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border-t border-zinc-200 dark:border-zinc-800 px-4 py-2 flex items-center justify-around shadow-lg">
       <NavLink
         to="/dashboard"
         className={({ isActive }) =>
@@ -45,6 +45,7 @@ export const MobileNav: React.FC = () => {
 
       {/* Floating Center Action */}
       <button
+        id="tour-fab"
         onClick={handlePlus}
         className="w-12 h-12 rounded-full bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 flex items-center justify-center shadow-lg -translate-y-4 hover:scale-105 transition-transform"
         aria-label="Registrar"

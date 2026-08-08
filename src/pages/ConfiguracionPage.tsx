@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useExtraHoursStore } from '../store/useExtraHoursStore';
+import { ResetTourButton } from '../components/onboarding/OnboardingTour';
 import { saveUserSettings } from '../services/settingsService';
 import { Card, CardHeader, CardTitle, CardDescription } from '../components/ui/Card';
 import { Input } from '../components/ui/Input';
@@ -92,20 +93,22 @@ export const ConfiguracionPage: React.FC = () => {
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
       {/* Top Banner */}
-      <div className="flex items-center justify-between bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 p-4 rounded-2xl shadow-xs">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 p-4 rounded-2xl shadow-xs">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900">
+          <div className="p-2.5 rounded-xl bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 shrink-0">
             <Settings className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="font-bold text-base text-zinc-900 dark:text-zinc-100">
+            <h3 className="font-bold text-sm sm:text-base text-zinc-900 dark:text-zinc-100">
               Configuración de Parámetros
             </h3>
-            <p className="text-xs text-zinc-500">
+            <p className="text-[11px] sm:text-xs text-zinc-500">
               Ajusta tus tarifas de hora, moneda y metas de rendimiento
             </p>
           </div>
         </div>
+
+        <ResetTourButton />
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">

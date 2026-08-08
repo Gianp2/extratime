@@ -127,7 +127,7 @@ export const MonthCalendar: React.FC<MonthCalendarProps> = ({ records, onSelectD
       <div className="grid grid-cols-7 gap-1.5">
         {/* Empty cells for starting offset */}
         {Array.from({ length: startDayOfWeek }).map((_, idx) => (
-          <div key={`empty-${idx}`} className="h-24 sm:h-28 rounded-xl bg-zinc-50/50 dark:bg-zinc-950/30 opacity-40 border border-transparent" />
+          <div key={`empty-${idx}`} className="h-20 sm:h-28 rounded-xl bg-zinc-50/50 dark:bg-zinc-950/30 opacity-40 border border-transparent" />
         ))}
 
         {daysArray.map((d) => {
@@ -147,16 +147,16 @@ export const MonthCalendar: React.FC<MonthCalendarProps> = ({ records, onSelectD
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => onSelectDate(dateStr, dayRecords[0])}
-              className={`h-24 sm:h-28 p-2 rounded-xl border flex flex-col justify-between transition-all cursor-pointer relative overflow-hidden group ${
+              className={`h-20 sm:h-28 p-1 sm:p-2 rounded-xl border flex flex-col justify-between transition-all cursor-pointer relative overflow-hidden group ${
                 colorCfg.bgClass
               } ${colorCfg.borderClass} ${isToday ? 'ring-2 ring-zinc-900 dark:ring-zinc-100 shadow-md' : ''}`}
             >
               <div className="flex items-center justify-between w-full">
-                <span className={`text-sm ${isToday ? 'font-bold underline' : 'font-medium'}`}>
+                <span className={`text-xs sm:text-sm ${isToday ? 'font-bold underline' : 'font-medium'}`}>
                   {d}
                 </span>
                 {totalHours > 0 && (
-                  <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold ${colorCfg.badgeBg}`}>
+                  <span className={`text-[9px] sm:text-[10px] px-1 sm:px-1.5 py-0.5 rounded-full font-bold ${colorCfg.badgeBg}`}>
                     {totalHours}h
                   </span>
                 )}
